@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Informe</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <p>registrar personas <a href="{% url 'registrar_persona' %}">Haz clic aquí</a>.</p>
+    <h1>Búsqueda de Informe</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="numero_cedula">Número de Cédula:</label>
+        <input type="text" id="numero_documento" name="numero_documento" required>
+        <button type="submit">Buscar</button>
+    </form>
+
+    {% if persona %}
+        <h2>Datos de la Persona</h2>
+        <div class="cuadrito">
+            <p><strong>Nombre:</strong> {{ persona.nombre }}</p>
+            <p><strong>Apellido:</strong> {{ persona.apellidos }}</p>
+            <p><strong>Correo:</strong> {{ persona.correo }}</p>
+            <p><strong>Celular:</strong> {{ persona.numero_celular }}</p>
+        </div>
+
+        <h2>Vacunas</h2>
+        {% for vacuna in vacunas %}
+            <div class="cuadrito">
+                <p><strong>Tipo de Vacuna:</strong> {{ vacuna.tipo_vacuna }}</p>
+                <p><strong>Fecha de Aplicación:</strong> {{ vacuna.fecha_aplicacion }}</p>
+            </div>
+        {% empty %}
+            <p>No hay vacunas registradas para esta persona.</p>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>
